@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign Language Converter</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🤟 Sign Language Converter</h1>
+    <p>Show a sign to your webcam. Both hands are tracked. The sign is shown as text and spoken aloud.</p>
+  </header>
+
+  <main>
+    <section class="camera-panel">
+      <div class="video-wrap">
+        <video id="video" autoplay playsinline muted></video>
+        <canvas id="overlay"></canvas>
+        <div id="loading" class="loading">Click “Start camera” to begin</div>
+      </div>
+      <div class="controls">
+        <button id="startBtn" class="primary">Start camera</button>
+        <span id="handStatus" class="pill">Hands: 0</span>
+        <label class="inline"><input type="checkbox" id="builtinToggle" checked /> Use built-in signs</label>
+      </div>
+
+      <div class="result">
+        <div class="label">Detected sign</div>
+        <div id="current" class="current">—</div>
+        <div id="source" class="source"></div>
+      </div>
+
+      <div class="sentence-box">
+        <div class="label">Sentence (hold a sign for about 1 second to add it)</div>
+        <div id="sentence" class="sentence"></div>
+        <div class="row">
+          <button id="speakBtn">🔊 Speak sentence</button>
+          <button id="undoBtn">⌫ Remove last</button>
+          <button id="clearBtn">Clear</button>
+        </div>
+        <div class="row">
+          <label class="inline"><input type="checkbox" id="autoSpeak" checked /> Speak each word automatically</label>
+          <label class="inline">Voice language
+            <select id="lang">
+              <option value="en-IN">English (India)</option>
+              <option value="hi-IN">Hindi</option>
+              <option value="ml-IN">Malayalam</option>
+              <option value="en-US">English (US)</option>
+            </select>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <aside class="side-panel">
+      <h2>➕ Add a new sign</h2>
+      <p class="hint">Type the word, click Record, then hold the sign in front of the camera. It records for 3 seconds after a 3-second countdown. Record a few times, slightly moving or tilting your hand, for better accuracy. Use both hands if the sign uses both.</p>
+      <div class="row">
+        <input id="signName" type="text" placeholder="Word or phrase (e.g. Water)" />
+        <button id="recordBtn" class="primary">Record</button>
+      </div>
+      <div id="recStatus" class="rec-status"></div>
+
+      <h2>📚 My signs</h2>
+      <div id="signList" class="sign-list"></div>
+
+      <div class="row">
+        <button id="exportBtn">Export signs (.json)</button>
+        <button id="importBtn">Import signs</button>
+        <input id="importFile" type="file" accept="application/json" hidden />
+      </div>
+      <button id="resetBtn" class="danger">Delete all my signs</button>
+
+      <h2>⚙️ Matching strictness</h2>
+      <input id="threshold" type="range" min="0.5" max="4" step="0.1" value="1.8" />
+      <div class="hint">Lower = stricter. Raise it if your own signs are not being recognised, lower it if it guesses wrong.</div>
+
+      <h2>ℹ️ Built-in signs</h2>
+      <ul class="builtin-list">
+        <li>1 finger → One</li>
+        <li>2 fingers → Two</li>
+        <li>3 fingers → Three</li>
+        <li>4 fingers → Four</li>
+        <li>Open hand → Five / Hello</li>
+        <li>Fist → Yes</li>
+        <li>Thumb up → Good</li>
+        <li>Thumb + little finger → Call me</li>
+        <li>Thumb + index + little finger → I love you</li>
+        <li>Both palms together → Namaste</li>
+        <li>Both open hands apart → Welcome</li>
+        <li>Both thumbs up → Very good</li>
+        <li>Both fists → Stop</li>
+      </ul>
+    </aside>
+  </main>
+
+  <footer>Everything runs in your browser. No video is uploaded anywhere.</footer>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
